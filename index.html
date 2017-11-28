@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ractive Progress bar Task</title>
+	<link rel="stylesheet" href="bootstrap.min.css">
+	<link rel="stylesheet" href="style.min.css">
+</head>
+<body>
+	<div class="container">
+		<div id="app"></div>	
+	</div>
+	
+	<script id="template" type="text/ractive">
+		{{#each barValue:i}}
+			<div class="progress">
+				<p class="progress-val">
+					{{#if barValue[i] < 0}}
+			  			0 %
+			  			{{else}}
+			  			{{parseInt(100 * barValue[i] / obj.limit)}} %
+			  		{{/if}}
+				</p>
+			  	<div class="
+			  		{{#if barValue[i] > obj.limit}}
+			  			progress-bar progress-bar-danger
+			  			{{else}}
+			  			progress-bar
+			  		{{/if}}
+			  		"
+			  		role="progressbar" 
+			  		aria-valuenow="
+					{{#if barValue[i] < 0}}
+			  			0
+			  			{{else}}
+			  			{{barValue[i]}}
+			  		{{/if}}
+			  		"
+			  		aria-valuemin="0" 
+			  		aria-valuemax="{{obj.limit}}" 
+			  		style="
+			  			{{#if barValue[i] < 0}}
+			  				width: 0%
+			  				{{else}}
+			  				width:{{100 * barValue[i] / obj.limit}}%
+			  			{{/if}}
+			  		">
+			  	</div>
+			</div>
+		{{/each}}
+		<div class="row">
+			<div class="col-md-2 col-xs-12 mb-10">
+				{{#if obj.bars}}
+				<select class="form-control" value="{{progressBarSelect}}" id="progressBarSelect">
+					{{#each obj.bars:i}}
+					<option value="{{i}}"># Progress {{i+1}}</option>
+					{{/each}}
+				</select>
+				{{/if}}		
+			</div>
+			<div class="col-md-10 col-xs-12">
+				{{#each obj.buttons:i}}
+					{{#if obj.buttons[i] > 0}}
+					<button on-click="addVal(obj.buttons[i])" class="btn btn-primary btn-click">+{{obj.buttons[i]}}</button>
+					{{else}}
+						<button on-click="addVal(obj.buttons[i])" class="btn btn-primary btn-click">{{obj.buttons[i]}}</button>
+					{{/if}}
+				{{/each}}
+			</div>
+		</div>
+	</script>
+	<script src="ractive.js"></script>
+
+	<script src="script.js"></script>
+</body>
+</html>
